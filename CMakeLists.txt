@@ -7,7 +7,11 @@ find_package(glfw3 REQUIRED)
 
 set (CMAKE_CXX_FLAGS "-std=c++1z ${CMAKE_CXX_FLAGS}")
 
-add_executable(main main.cpp)
+if (UNIX)
+  file(GLOB PLATFORMSPECIFICFILES linux/*.cpp)
+endif (UNIX)
+
+file(GLOB CPPFILES *.cpp)
+add_executable(main ${CPPFILES} ${PLATFORMSPECIFICFILES})
 
 target_link_libraries(main ${OPENGL_LIBRARY} glfw)
-

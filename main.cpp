@@ -1,5 +1,5 @@
-
 #include <iostream>
+#include <chrono>
 
 #include <GLFW/glfw3.h>
 
@@ -7,10 +7,27 @@
 
 #include "graphics_system.h"
 #include "entity.h"
-
+#include "file_loader.h"
+#include "buffer.h"
+#include "model_loader.h"
 
 int main()
 {
+    std::cout << "benchmarkin!" << std::endl;
+    auto start = std::chrono::high_resolution_clock::now();
+
+    FileLoader fl;
+    //auto content = fl.load_file("./node_modules.tar");
+    auto content = fl.load_file2("./node_modules.tar");
+    auto end = std::chrono::high_resolution_clock::now();
+    std::cout << "Size: " << content.size << std::endl;
+    std::cout << std::chrono::duration<double>(end - start).count() << std::endl;
+
+    std::cout << "Loading cube" << std::endl;
+    auto cube_buffer = fl.load_file2("./HGkub.obj");
+    auto model = parse(cube_buffer);
+
+    return 0;
     GLFWwindow* window;
 
     glfwSetErrorCallback([] (int a, const char* c)
