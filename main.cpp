@@ -13,19 +13,20 @@
 
 int main()
 {
+    FileLoader fl;
+
     std::cout << "benchmarkin!" << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
-
-    FileLoader fl;
-    //auto content = fl.load_file("./node_modules.tar");
-    auto content = fl.load_file2("./node_modules.tar");
-    auto end = std::chrono::high_resolution_clock::now();
-    std::cout << "Size: " << content.size << std::endl;
-    std::cout << std::chrono::duration<double>(end - start).count() << std::endl;
-
-    std::cout << "Loading cube" << std::endl;
+    std::cout << "Loading cube: ";
     auto cube_buffer = fl.load_file2("./HGkub.obj");
+    auto end = std::chrono::high_resolution_clock::now();
+    std::cout << "time: " << std::chrono::duration<double>(end - start).count() << "s size: " << cube_buffer.size << "B" << std::endl;
+
+    start = std::chrono::high_resolution_clock::now();
+    std::cout << "Parsing model: ";
     auto model = parse(cube_buffer);
+    end = std::chrono::high_resolution_clock::now();
+    std::cout << "time: " << std::chrono::duration<double>(end - start).count() << "s" << std::endl;
 
     return 0;
     GLFWwindow* window;
